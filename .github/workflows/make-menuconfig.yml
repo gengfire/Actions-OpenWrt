@@ -92,8 +92,9 @@ jobs:
       run: |
         cd openwrt
         mkdir menuconfig
-        cp ./.config ./menuconfig/
+        cp .config ./menuconfig
         cd menuconfig
+        cp .config c.config
         echo "CONFIGFILEPATH=$PWD" >> $GITHUB_ENV
 
     - name: Upload config file
