@@ -92,13 +92,12 @@ jobs:
       run: |
         cd openwrt
         mkdir menuconfig
-        cp .config ./menuconfig
+        cp .config ./menuconfig/c.config
         cd menuconfig
-        cp .config c.config
         echo "CONFIGFILEPATH=$PWD" >> $GITHUB_ENV
 
     - name: Upload config file
       uses: actions/upload-artifact@main
       with:
-        name: Lede_menuconfig-${{ env.FILE_DATE }}
+        name: lede_menuconfig-file
         path: ${{ env.CONFIGFILEPATH }}
