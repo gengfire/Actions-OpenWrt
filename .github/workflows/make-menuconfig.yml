@@ -88,5 +88,14 @@ jobs:
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
-    - name: Commit config file
-      run: cd openwrt && git add .config && git commit -m update && git push
+    - name: Copy config file
+      run: |
+        cd openwrt
+        mkdir menuconfig
+        cp .config ./menuconfig/
+
+    - name: Upload config file
+      uses: actions/upload-artifact@main
+      with:
+        name: Lede_menuconfig-${{ env.FILE_DATE }}
+        path: openwrt/menuconfig
