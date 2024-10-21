@@ -92,6 +92,8 @@ jobs:
       run: |
         cd openwrt
         mkdir menuconfig
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
         cp .config ./menuconfig/c.config
         cd menuconfig
         echo "CONFIGFILEPATH=$PWD" >> $GITHUB_ENV
@@ -99,5 +101,5 @@ jobs:
     - name: Upload config file
       uses: actions/upload-artifact@main
       with:
-        name: lede_menuconfig-file
+        name: lede_menuconfig_file-${{ env.DEVICE_NAME }}
         path: ${{ env.CONFIGFILEPATH }}
